@@ -1,6 +1,7 @@
 import express from "express"
 import mongoose, { mongo } from "mongoose"
 import dotenv from "dotenv"
+import pictureRouter from "./api/routes/pictureRouter.js"
 
 dotenv.config()
 const app = express()
@@ -14,7 +15,11 @@ const connect = async() => {
   } catch (error) {
     error
   }
-} 
+}
+
+app.use(express.json());
+
+app.use("/pictures", pictureRouter)
 
 app.listen(process.env.PORT, () => {
   connect()
