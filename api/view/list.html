@@ -1,0 +1,18 @@
+<a href="/pictures/">Ir para o formulario</a>
+
+<div id="list"></div>
+
+<script>
+  fetch("/pictures/list")
+  .then(result => result.json())
+  .then(result => {
+    result.forEach(image => {
+      const imageTag = document.createElement("img")
+      imageTag.src = `/pictures/${image._id}`
+      imageTag.width = 300
+      imageTag.style = "margin: 5px"
+      imageTag.title = image.name
+      list.append(imageTag)
+    });
+  });
+</script>

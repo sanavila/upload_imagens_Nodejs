@@ -1,5 +1,5 @@
 import express from "express"
-import mongoose, { mongo } from "mongoose"
+import mongoose from "mongoose"
 import dotenv from "dotenv"
 import pictureRouter from "./api/routes/pictureRouter.js"
 
@@ -10,8 +10,14 @@ mongoose.set('strictQuery', true)
 
 const connect = async() => {
   try {
-    mongoose.connect(process.env.MONGO)
-    console.log("Banco conectado")
+    mongoose.connect(process.env.MONGO, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }, error => {
+      if (error)
+        return console.log("Falha na conexão com o banco " + error)
+      console.log("Banco conectado")
+    })
   } catch (error) {
     error
   }
@@ -23,5 +29,5 @@ app.use("/pictures", pictureRouter)
 
 app.listen(process.env.PORT, () => {
   connect()
-  console.log("backend connected!")
+  console.log("backend up: "+process.env.PORT)
 })

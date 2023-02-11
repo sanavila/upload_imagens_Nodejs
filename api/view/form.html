@@ -1,0 +1,29 @@
+<form  id="uploadImg">
+  <input type="file" id="fileField" required>
+  <input type="text" id="nameField" required placeholder="Nome da imagem">
+  <input type="submit" value="Enviar">
+</form>
+
+<a href="/pictures/show">Ver listagem de imagens</a>
+
+<script>
+uploadImg.addEventListener("submit", ev => {
+  ev.preventDefault();
+  ev.stopPropagation();
+
+  const form = new FormData();
+  form.append("file", fileField.files[0])
+  form.append("name", nameField.value)
+  fetch("/pictures", {
+    body: form,
+    method: "POST"
+  })
+  .then(result => result.json())
+  .then(result => {
+    fileField.value = ""
+    nameField.value = ""
+    alert(result.msg)
+  })
+  .catch(result => alert("Falha"))
+})
+</script>
